@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "prepublish": "tsc",
-    "lint": "eslint ./src --ext .js,.ts",
+    "lint": "eslint ./src ./tests --ext .js,.ts",
     "test": "mocha -r ts-node/register tests/**/*.ts",
     "prepare": "husky install"
   },
