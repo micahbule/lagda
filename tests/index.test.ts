@@ -1,5 +1,6 @@
 import { expect } from 'chai'
 import 'mocha'
+import { useFakeTimers, SinonFakeTimers } from 'sinon'
 import Lagda from '../src'
 import { VerificationResult, SigningMethodOptions } from '../src/types'
 
@@ -46,20 +47,41 @@ describe('Lagda', () => {
         it('invalid url length')
         it('invalid signature')
         it('invalid signature data')
-        it('expired signature')
-        it('valid signature', () => {
-            const secrets = ['secret1', 'secret2']
+        it('expired signature', async () => {
+            const clock: SinonFakeTimers = useFakeTimers()
 
             const lagda = new Lagda({
-                secrets,
+                secrets: defaultSecrets,
                 ttl: 30,
             })
 
             const signedUrl = lagda.sign(someSecuredUrl)
 
-            const [valid, signingData]: [VerificationResult, SigningMethodOptions?] = lagda.verify(signedUrl)
+            const [result, signingData]: [VerificationResult, SigningMethodOptions?] = lagda.verify(signedUrl)
 
-            expect(valid).to.equal(VerificationResult.ok)
+            expect(result).to.equal(VerificationResult.ok)
+            expect(signingData?.expiry).to.be.greaterThan(Math.ceil(Date.now()/1000))
+
+            clock.tick(31000)
+
+            const [invalidResult] = lagda.verify(signedUrl)
+            expect(invalidResult).to.equal(VerificationResult.expired)
+            expect(signingData?.expiry).to.be.lessThan(Math.ceil(Date.now()/1000))
+
+            clock.restore()
+        })
+
+        it('valid signature', () => {
+            const lagda = new Lagda({
+                secrets: defaultSecrets,
+                ttl: 30,
+            })
+
+            const signedUrl = lagda.sign(someSecuredUrl)
+
+            const [result, signingData]: [VerificationResult, SigningMethodOptions?] = lagda.verify(signedUrl)
+
+            expect(result).to.equal(VerificationResult.ok)
             expect(signingData?.expiry).to.be.greaterThan(Math.ceil(Date.now()/1000))
         })
     })

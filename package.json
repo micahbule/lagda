@@ -29,6 +29,7 @@
     "@types/keygrip": "^1.0.2",
     "@types/mocha": "^8.2.2",
     "@types/node": "^15.0.2",
+    "@types/sinon": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
     "@typescript-eslint/parser": "^4.22.1",
     "chai": "^4.3.4",
@@ -40,6 +41,7 @@
     "husky": "^6.0.0",
     "mocha": "^8.3.2",
     "prettier": "^2.2.1",
+    "sinon": "^10.0.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   },
