@@ -8,6 +8,7 @@
     "prepublish": "tsc",
     "lint": "eslint ./src ./tests --ext .js,.ts",
     "test": "mocha -r ts-node/register tests/**/*.ts",
+    "test:watch": "mocha -r ts-node/register -w tests/**/*.ts",
     "prepare": "husky install"
   },
   "repository": {
@@ -25,6 +26,7 @@
   "homepage": "https://github.com/micahbule/lagda#readme",
   "devDependencies": {
     "@types/chai": "^4.2.17",
+    "@types/keygrip": "^1.0.2",
     "@types/mocha": "^8.2.2",
     "@types/node": "^15.0.2",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
@@ -41,5 +43,8 @@
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   },
-  "types": "dist/index.d.ts"
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "keygrip": "^1.1.0"
+  }
 }
